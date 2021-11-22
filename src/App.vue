@@ -1,17 +1,19 @@
 <template>
-  <div id="app">
-wertey
+  <div class="app">
+    {{ counter }}
+    <button class="button button_plus" @click="counter++">+</button>
+    <button class="button button_minus" @click="counter--">-</button>
   </div>
 </template>
 
 <script>
-// import CounterInput from "./components/CounterInput.vue";
 
 export default {
-  // components: { CounterInput },
+  name: 'App',
+  data() {
+    return {
+      counter: 0,
+    }
+  }
 };
 </script>
-
-<style>
-
-</style>

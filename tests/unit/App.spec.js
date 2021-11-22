@@ -43,7 +43,7 @@ describe('Counter', () => {
     expect(wrapper.text()).toContain('1');
   });
 
-  it('increments by one when - button clicked', async () => {
+  it('decrements by one when - button clicked', async () => {
     createComponent();
     wrapper.find('.button_minus').trigger('click');
     await wrapper.vm.$nextTick();

@@ -13,6 +13,13 @@
     >
       -
     </button>
+    <button
+      v-if="counter < 0"
+      @click="counter = 0"
+      data-test-id="reset"
+    >
+      Reset
+    </button>
   </div>
 </template>
 

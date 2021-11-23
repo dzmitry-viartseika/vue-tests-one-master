@@ -49,4 +49,18 @@ describe('Counter', () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain('-1');
   });
+
+  it('shows reset button when counter is below zero', async () => {
+    createComponent();
+    wrapper.vm.counter = -1;
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('[data-test-id=reset]').exists()).toBe(true);
+  });
+
+  it('does not show reset button when counter is not below zero', async () => {
+    createComponent();
+    wrapper.vm.counter = 1;
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('[data-test-id]').exists()).toBe(false);
+  })
 })

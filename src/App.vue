@@ -17,6 +17,7 @@
       v-if="counter < 0"
       @click="counter = 0"
       data-test-id="reset"
+      class="button button_reset"
     >
       Reset
     </button>

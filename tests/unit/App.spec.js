@@ -6,6 +6,7 @@ import nextTick  from 'vue';
 // import { nextTick } from "vue";
 
 describe('Counter', () => {
+
   let wrapper;
   // искать по тексту кнопки!
 
@@ -59,6 +60,7 @@ describe('Counter', () => {
 
   it('does not show reset button when counter is not below zero', async () => {
     createComponent();
+    // стараться тестить без состояния!
     wrapper.vm.counter = 1;
     await wrapper.vm.$nextTick();
     expect(wrapper.find('[data-test-id]').exists()).toBe(false);

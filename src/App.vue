@@ -32,6 +32,22 @@ export default {
     return {
       counter: 0,
     }
+  },
+  methods: {
+    handleKeyPress(e) {
+      if (e.key === '-') {
+        this.counter -= 1;
+      }
+      if (e.key === '+') {
+        this.counter += 1;
+      }
+    }
+  },
+  mounted() {
+    document.addEventListener(('keyup'),  this.handleKeyPress);
+  },
+  beforeDestroy() {
+    document.removeEventListener(('keyup'),  this.handleKeyPress);
   }
 };
 </script>

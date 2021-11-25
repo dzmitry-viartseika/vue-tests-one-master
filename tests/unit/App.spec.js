@@ -2,11 +2,13 @@ import App from '../../src/App.vue';
 import { mount } from '@vue/test-utils';
 // import CounterInput from "@/components/CounterInput.vue";
 // import { stubComponent } from "./helpers/stubComponent.js";
+import { nextTick } from 'vue';
 
 describe('Counter', () => {
 
   let wrapper;
   // искать по тексту кнопки!
+
 
   // const findPlusButton = () => {
   //   wrapper.findAll('button').wrappers.find((w) => w.text() === '+');
@@ -64,5 +66,31 @@ describe('Counter', () => {
     wrapper.vm.counter = 1;
     await wrapper.vm.$nextTick();
     expect(wrapper.find('[data-test-id]').exists()).toBe(false);
+  });
+
+  it('increases by one when plus key is pressed', async () => {
+    createComponent();
+    const event = new KeyboardEvent('keyup', {
+      key: '+'
+    })
+
+    document.dispatchEvent(event);
+
+    await wrapper.vm.$nextTick();
+    expect(wrapper.text()).toContain('+');
+  });
+
+  it('removes attached event listener when destroyed' ,async () => {
+    const originalAddEventListener = document.addEventListener;
+    document.addEventListener = jest
+      .fn()
+      .mockImplementation((...args) => {
+        return originalAddEventListener.call(document, ...args);
+      })
+    // 1.45
+    document.addEventListener('foo', () => {})
+    createComponent();
+    await wrapper.vm.$nextTick();
+    console.log('listenerMock', document.addEventListener.mock.calls);
   })
 })

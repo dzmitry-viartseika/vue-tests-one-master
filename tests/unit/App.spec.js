@@ -113,5 +113,5 @@ describe('Counter', () => {
     // перезаписываем пропс
     await wrapper.setProps({initialValue: NEW_INITIAL_VALUE});
     expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
-  });
+   });
 })

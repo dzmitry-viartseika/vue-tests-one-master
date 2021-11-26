@@ -1,5 +1,9 @@
 <template>
   <div class="app">
+    2-13-52
+    <CounterInput
+      v-model="counter"
+    />
     {{ counter }}
     <button
       class="button button_plus"
@@ -26,8 +30,11 @@
 
 <script>
 
+import CounterInput from './components/CounterInput';
+
 export default {
   name: 'App',
+  components: { CounterInput },
   props: {
     initialValue: {
       type: Number,

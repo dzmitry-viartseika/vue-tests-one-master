@@ -28,10 +28,24 @@
 
 export default {
   name: 'App',
+  props: {
+    initialValue: {
+      type: Number,
+      default: 0,
+    }
+  },
+  watch: {
+    initialValue: {
+      immediate: true,
+      handler(newValue) {
+        this.counter = newValue;
+      }
+    }
+  },
   data() {
     return {
-      counter: 0,
-    }
+      counter: 0
+    };
   },
   methods: {
     handleKeyPress(e) {

@@ -1,8 +1,5 @@
 import App from '../../src/App.vue';
 import { mount } from '@vue/test-utils';
-// import CounterInput from "@/components/CounterInput.vue";
-// import { stubComponent } from "./helpers/stubComponent.js";
-import { nextTick } from 'vue';
 
 describe('Counter', () => {
 
@@ -14,8 +11,13 @@ describe('Counter', () => {
   //   wrapper.findAll('button').wrappers.find((w) => w.text() === '+');
   // };
 
-  const createComponent = () => {
-    wrapper = mount(App);
+  // attachTo - когда компонент реагирует на клики за своими пределами
+  const createComponent = (props) => {
+    wrapper = mount(App, {
+      attachTo: document.body,
+      propsData: props
+      // attachToDocument: true старые версии
+    });
   }
 
   afterEach(() => {
@@ -81,16 +83,35 @@ describe('Counter', () => {
   });
 
   it('removes attached event listener when destroyed' ,async () => {
-    const originalAddEventListener = document.addEventListener;
-    document.addEventListener = jest
-      .fn()
-      .mockImplementation((...args) => {
-        return originalAddEventListener.call(document, ...args);
-      })
-    // 1.45
-    document.addEventListener('foo', () => {})
+    // Arrange
+    jest.spyOn(document, 'addEventListener');
+    jest.spyOn(document, 'removeEventListener');
     createComponent();
+    // Act
+    const [, keyUpListiner] = document.addEventListener.mock.calls.find(([key]) => key === 'keyup');
+
+    expect(document.removeEventListener).not.toHaveBeenCalledWith('keyup', keyUpListiner)
+
+    wrapper.destroy();
+    // Assert
+    expect(document.removeEventListener).toHaveBeenCalledWith('keyup', keyUpListiner)
+  });
+
+  it('correctly initializes when initialValue is passed', () => {
+    const INITIAL_VALUE = 5;
+    createComponent({initialValue: INITIAL_VALUE});
+
+    expect(wrapper.text()).toContain(INITIAL_VALUE);
+  });
+
+  it('correctly reset when initialValue is charged', async () => {
+    const INITIAL_VALUE = 5;
+    const NEW_INITIAL_VALUE = 10;
+    createComponent({initialValue: INITIAL_VALUE});
+    wrapper.find('.button_minus').trigger('click');
     await wrapper.vm.$nextTick();
-    console.log('listenerMock', document.addEventListener.mock.calls);
-  })
+    // перезаписываем пропс
+    await wrapper.setProps({initialValue: NEW_INITIAL_VALUE});
+    expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
+  });
 })

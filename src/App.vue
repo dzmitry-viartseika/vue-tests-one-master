@@ -5,8 +5,8 @@
       Current value of
     >
       Current value of counter2 is {{ counter2 }}
-      <template #remark>
-        remark
+      <template #warning>
+        BETA
       </template>
     </CounterInput>
     {{ counter }} / {{ counter2 }}
@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       counter: 0,
-      counter2: 0,
+      counter2: 0
     };
   },
   methods: {

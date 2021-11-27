@@ -1,6 +1,14 @@
 import App from '../../src/App.vue';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from "@vue/test-utils";
 import CounterInput from "../../src/components/CounterInput";
+
+
+// stubs применимы и с mount. Заглушаем компонент или управление.
+const CounterInputStub = {
+  template: '<div><slot></slot><slot name="warning"></slot></div>',
+  props: CounterInput.props,
+  $_vueTestUtils_original: CounterInput,
+}
 
 describe('Counter', () => {
 
@@ -14,9 +22,12 @@ describe('Counter', () => {
 
   // attachTo - когда компонент реагирует на клики за своими пределами
   const createComponent = (props) => {
-    wrapper = mount(App, {
+    wrapper = shallowMount(App, {
       attachTo: document.body,
-      propsData: props
+      propsData: props,
+      stubs: {
+        CounterInput: CounterInputStub,
+      }
       // attachToDocument: true старые версии
     });
   }
@@ -127,7 +138,7 @@ describe('Counter', () => {
     const NEW_INITIAL_VALUE = 40;
     createComponent({initialValue: INITIAL_VALUE});
 
-    wrapper.findComponent(CounterInput).vm.$emit('input', NEW_INITIAL_VALUE);
+    wrapper.findComponent(CounterInputStub).vm.$emit('input', NEW_INITIAL_VALUE);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
   });
@@ -136,7 +147,11 @@ describe('Counter', () => {
     createComponent();
     wrapper.find('.button_plus2').trigger('click');
     await wrapper.vm.$nextTick();
-    expect(wrapper.findComponent(CounterInput).text()).toContain('1');
-    // expect(wrapper.text()).toContain(`${NEW_INITIAL_VALUE}` / 0)
+    expect(wrapper.findComponent(CounterInputStub).text()).toContain('1');
+  });
+
+  it('passed BETA to CounterComponent warning slot', () => {
+    createComponent();
+    expect(wrapper.findComponent(CounterInputStub).text()).toContain('BETA')
   })
 })

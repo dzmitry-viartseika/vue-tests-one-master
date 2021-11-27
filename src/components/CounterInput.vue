@@ -7,10 +7,9 @@
       @input="$emit('input', $event.target.value)"
     >
     <hr/>
-
-    <hr/>
     <slot></slot>
-<!--    <slot name="remark"></slot>-->
+    <hr/>
+    <slot name="warning"></slot>
   </div>
 </template>
 
@@ -23,7 +22,7 @@ export default {
     },
     otherValue: {
       type: Number,
-      required: false,
+      required: false
     },
   },
 }

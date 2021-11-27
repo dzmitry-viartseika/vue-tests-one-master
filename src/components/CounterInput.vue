@@ -4,7 +4,7 @@
     <input
       type="text"
       :value="value"
-      @input="$emit('input', $event.target.value)"
+      @input="$emit('change', $event.target.value)"
     >
     <hr/>
     <slot></slot>
@@ -24,6 +24,11 @@ export default {
       type: Number,
       required: false
     },
+  },
+  // позволяет переопределить имя свойство и имя события которое мы используем
+  model: {
+    prop: 'value',
+    event: 'change'
   },
 }
 </script>

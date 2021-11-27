@@ -4,11 +4,19 @@ import CounterInput from "../../src/components/CounterInput";
 
 
 // stubs применимы и с mount. Заглушаем компонент или управление.
+
+// Если mount - надо чтобы компонент не рендерился CounterInput: true
+// Если shallowMOunt - надо чтобы компонент рендарился, то CounterInput: false
 const CounterInputStub = {
   template: '<div><slot></slot><slot name="warning"></slot></div>',
   props: CounterInput.props,
+  model: CounterInput.model,
+  // Vue 3
+  emits: CounterInput.emits,
   $_vueTestUtils_original: CounterInput,
-}
+};
+
+// CounterInputStub - не имеет пропсов, и попытка взять у него ошибка, решается $_vueTestUtils_original
 
 describe('Counter', () => {
 
@@ -138,7 +146,7 @@ describe('Counter', () => {
     const NEW_INITIAL_VALUE = 40;
     createComponent({initialValue: INITIAL_VALUE});
 
-    wrapper.findComponent(CounterInputStub).vm.$emit('input', NEW_INITIAL_VALUE);
+    wrapper.findComponent(CounterInputStub).vm.$emit(CounterInputStub.model?.event ?? 'input', NEW_INITIAL_VALUE);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
   });

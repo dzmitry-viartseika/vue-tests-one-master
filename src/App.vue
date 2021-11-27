@@ -1,10 +1,15 @@
 <template>
   <div class="app">
-    2-13-52
     <CounterInput
       v-model="counter"
-    />
-    {{ counter }}
+      Current value of
+    >
+      Current value of counter2 is {{ counter2 }}
+      <template #remark>
+        remark
+      </template>
+    </CounterInput>
+    {{ counter }} / {{ counter2 }}
     <button
       class="button button_plus"
       @click="counter++"
@@ -24,6 +29,19 @@
       class="button button_reset"
     >
       Reset
+    </button>
+    <hr>
+    <button
+      class="button button_plus2"
+      @click="counter2++"
+    >
+      +
+    </button>
+    <button
+      class="button button_minus2"
+      @click="counter2--"
+    >
+      -
     </button>
   </div>
 </template>
@@ -51,7 +69,8 @@ export default {
   },
   data() {
     return {
-      counter: 0
+      counter: 0,
+      counter2: 0,
     };
   },
   methods: {

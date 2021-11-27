@@ -1,5 +1,6 @@
 import App from '../../src/App.vue';
 import { mount } from '@vue/test-utils';
+import CounterInput from "../../src/components/CounterInput";
 
 describe('Counter', () => {
 
@@ -114,4 +115,28 @@ describe('Counter', () => {
     await wrapper.setProps({initialValue: NEW_INITIAL_VALUE});
     expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
    });
+
+  it('passes current value to CounterInput component', () => {
+    const INITIAL_VALUE = 5;
+    createComponent({initialValue: INITIAL_VALUE});
+    expect(wrapper.findComponent(CounterInput).props().value).toBe(INITIAL_VALUE);
+  });
+
+  it('updates current value when CounterInput provides new one', async () => {
+    const INITIAL_VALUE = 5;
+    const NEW_INITIAL_VALUE = 40;
+    createComponent({initialValue: INITIAL_VALUE});
+
+    wrapper.findComponent(CounterInput).vm.$emit('input', NEW_INITIAL_VALUE);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.text()).toContain(NEW_INITIAL_VALUE);
+  });
+
+  it('passes second value to CounterInput', async() => {
+    createComponent();
+    wrapper.find('.button_plus2').trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent(CounterInput).text()).toContain('1');
+    // expect(wrapper.text()).toContain(`${NEW_INITIAL_VALUE}` / 0)
+  })
 })

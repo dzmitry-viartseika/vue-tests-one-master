@@ -31,6 +31,9 @@ describe('Counter', () => {
       propsData: props,
       stubs: {
         CounterInput: CounterInputStub,
+      },
+      slots: {
+        warning: "BETA"
       }
       // attachToDocument: true старые версии
     });

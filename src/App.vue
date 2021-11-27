@@ -6,7 +6,7 @@
     >
       Current value of counter2 is {{ counter2 }}
       <template #warning>
-        BETA
+        <slot name="warning"></slot>
       </template>
     </CounterInput>
     {{ counter }} / {{ counter2 }}
